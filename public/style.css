@@ -1,0 +1,211 @@
+body {
+  font-family: 'Raleway', sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold; 
+}
+
+label {
+  display: block;
+}
+
+nav a {
+  display: inline-block;
+  margin: 1em;
+}
+
+button {
+  border: none;
+  background-color: white;
+
+}
+
+button:hover,
+button:focus {
+  background-color: lightgray;
+}
+
+/* img {
+  max-width: 100%;
+  height: auto;
+} */
+
+/* form div {
+  margin: 1em;
+  display: inline-block;
+} */
+
+#navbar {
+  background-color: darkgray;
+  display: flex;
+  flex-direction: column;
+  height: 100px;
+}
+
+#navbar-header {
+  font-family: 'Work Sans', sans-serif;
+  font-size: 50px;
+  margin-left: 5px;
+}
+
+#navbar-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+  margin-bottom: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+#landing-page-title {
+  font-family: 'Work Sans', sans-serif;
+  font-size: 50px;
+}
+
+.landing-page-paragraph {
+  width: 40vw;
+}
+
+.window {
+  height: 85vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.center-display {
+  display: flex;
+  flex-direction: column;
+  height: 750px;
+  width: 1000px;
+  margin: 10px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: lightgrey;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.center-display-landing {
+  display: flex;
+  flex-direction: column;
+  height: 750px;
+  width: 1000px;
+  margin: 10px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: lightgrey;
+  justify-content: center;
+  align-items: center;
+  background-color: lightgray;
+  opacity: 0.5;
+  position: absolute;
+}
+
+.center-dispaly-landing-no-opac {
+  display: flex;
+  flex-direction: column;
+  height: 750px;
+  width: 1000px;
+  margin: 10px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: lightgrey;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+}
+
+.background-image {
+  width: 100%;
+}
+
+.home-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  font-size: 20px;
+  margin: 30px;
+}
+
+.home-button {
+  height: 150px;
+  width: 200px;
+  margin: 30px;
+}
+
+.header {
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+}
+
+.post-form {
+  justify-content: center;
+  display: flex;
+  align-content: center;
+  height: 450px;
+}
+
+.post-input {
+  width: 500px;
+}
+
+.submit-button {
+  margin:10px;
+  width: 200px;
+}
+
+.post-button {
+  width: 200px;
+}
+
+.user-button {
+  width: 200px;
+  margin: 10px;
+}
+
+.single-post {
+  width: 750px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.scroll-element {
+  height: 470px;
+  width: 750px;
+  overflow: auto;
+}
+
+.scroll-area {
+  height: 750px;
+}
+
+.enter-button {
+  height: 100px;
+  width: 200px;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 25px;
+  background-color: transparent;
+}
+
+.search-bar {
+  margin: 5px;
+}
