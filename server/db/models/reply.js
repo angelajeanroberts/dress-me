@@ -29,6 +29,13 @@ const Reply = db.define('reply', {
   tip: {
     type: Sequelize.INTEGER,
     defaultValue: 0
+  },
+  contractReplyId: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
   }
 })
 

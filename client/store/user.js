@@ -1,26 +1,15 @@
 import axios from 'axios'
 import history from '../history'
+import web3 from 'web3'
 
-/**
- * ACTION TYPES
- */
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
 
-/**
- * INITIAL STATE
- */
 const defaultUser = {}
 
-/**
- * ACTION CREATORS
- */
 const getUser = user => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
 
-/**
- * THUNK CREATORS
- */
 export const me = () => async dispatch => {
   try {
     const {data: user} = await axios.get('/auth/me')
@@ -35,14 +24,13 @@ export const me = () => async dispatch => {
   }
 }
 
-export const auth = (email, password, method) => async dispatch => {
+export const auth = (email, password, contractUserId, method) => async dispatch => {
   let res
   try {
-    res = await axios.post(`/auth/${method}`, {email, password})
+    res = await axios.post(`/auth/${method}`, {email, password, contractUserId})
   } catch (authError) {
     return dispatch(getUser({error: authError}))
   }
-
   try {
     const userData = await axios.get(`/api/users/${res.data.id}`)
     dispatch(getUser(userData.data))
