@@ -1,59 +1,100 @@
 pragma solidity ^0.4.23;
 
-contract Main {
-    uint public replyTracker = 0;
-    uint public userTracker = 0;
-    mapping (uint => address) userIdToAddress;
-    struct User  {uint userId; address userAddress; }
-    struct Reply { uint replyId; uint stylistId; uint customerId; string status; }
+import "../../node_modules/openzeppelin-solidity/contracts/payment/escrow/Escrow.sol";
+
+contract Main is Escrow {
+    uint256 public userTracker = 1;
+    uint256 public requestTracker = 1;
+    uint256 public replyTracker = 1;
+
+    mapping (uint256 => address) userIdToAddress;
+
+    struct User  {uint256 userId; address userAddress; }
+    struct Request { uint256 requestId; uint256 customerId; string status; }
+    struct Reply { uint256 replyId; uint256 requestId;  uint256 stylistId; string status; }
 
     User[] public users;
+    Request[] public requests;
     Reply[] public replies;
 
-    function auth() public returns (uint _userId, address _userAddress) {
+    event Authenticated(uint256 userId, address indexed userAddress);
+
+    function auth() public returns (uint256 _userId, address _userAddress) {
         address userAddress = msg.sender;
         for(uint i = 0; i < users.length; i++) {
             if(users[i].userAddress == userAddress) {
+                emit Authenticated(users[i].userId, users[i].userAddress);
                 return (users[i].userId, users[i].userAddress);
             }
         }
-        userTracker = userTracker + 1;
-        uint userId = userTracker;
+        uint256 userId = userTracker;
         users.push(User(userId, userAddress));
         userIdToAddress[userId] = userAddress;
+        userTracker = userTracker + 1;
+        emit Authenticated(userId, userAddress);
         return (userId, userAddress);
     }
 
-    function newReply(uint _stylistId, uint _customerId) public returns(uint _replyId) {
+    function newRequest(uint256 _customerId) public returns(uint256 _requestId) {
+        uint256 requestId = requestTracker;
+        requests.push(Request(requestId, _customerId, "open"));
+        requestTracker = requestTracker + 1;
+        return requestId;
+    }
+
+    function newReply(uint256 _stylistId, uint256 _requestId) public returns(uint256 _replyId) {
+        uint256 replyId = replyTracker;
+        replies.push(Reply(replyId, _requestId, _stylistId, "open"));
         replyTracker = replyTracker + 1;
-        uint replyId = replyTracker;
-        replies.push(Reply(replyId, _stylistId, _customerId, "open"));
         return replyId;
     }
 
-    function getTransactionData(uint _replyId) public view returns (uint _stylistId, uint _customerId) {
-    // function getTransactionData(uint _replyId) public view returns (address _stylist, address _customer) {
-        uint stylistId;
-        uint customerId;
-        address stylistAddress;
-        address customerAddress;
-        for (uint i = 0; i < replies.length; i++) {
-            if(replies[i].replyId == _replyId) {
-                stylistId = replies[i].stylistId;
-                customerId = replies[i].customerId;
+    function closeRequest(uint256 _requestId, uint256 _acceptedReplyId) public {
+        for(uint i = 0; i < requests.length; i++) {
+            if(requests[i].requestId == _requestId) {
+                requests[i].status = "closed";
             }
         }
+        for(uint j = 0; j < replies.length; j++) {
+            if(replies[j].requestId == _requestId) {
+                if(replies[j].replyId == _acceptedReplyId) {
+                    replies[j].status = "accepted";
+                } else {
+                    replies[j].status = "rejected";
+                }
+            }
+        }
+    }
 
-        for(uint j = 0; j < users.length; j++) {
-            if(users[j].userId == stylistId) {
-                stylistAddress = users[j].userAddress;
-            }
-            if(users[j].userId == customerId) {
-                customerAddress = users[j].userAddress;
+    function payTip(uint256 _stylistId) public {
+        address stylistAddress;
+        for(uint i = 0; i < users.length; i++) {
+            if(users[i].userId == _stylistId) {
+                stylistAddress = users[i].userAddress;
             }
         }
-        return (stylistId, customerId);
-        // return (stylistAddress, customerAddress);
+        deposit(stylistAddress);
+    }
+
+    function getBalance(uint256 _stylistId) public view returns(uint256 _totalDeposits) {
+        address stylistAddress;
+        for(uint i = 0; i < users.length; i++) {
+            if(users[i].userId == _stylistId) {
+                stylistAddress = users[i].userAddress;
+            }
+        }
+        uint256 totalDeposits = depositsOf(stylistAddress);
+        return totalDeposits;
+    }
+
+    function withdrawTips(uint256 _stylistId) public {
+        address stylistAddress;
+        for(uint i = 0; i < users.length; i++) {
+            if(users[i].userId == _stylistId) {
+                stylistAddress = users[i].userAddress;
+            }
+        }
+        withdraw(stylistAddress);
     }
 
 }

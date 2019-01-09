@@ -13,14 +13,16 @@ async function seed() {
       lastName: 'Test',
       email: 'cody@email.com', 
       password: '123',
-      isAdmin: true
+      isAdmin: true,
+      contractUserId: 1
     }),
     User.create({
       firstName: 'Murphy',
       lastName: 'Test',
       email: 'murphy@email.com', 
       password: '123',
-      isAdmin: false
+      isAdmin: false,
+      contractUserId: 2
     })
   ])
 
@@ -55,7 +57,8 @@ async function seed() {
       description: 'A little dressy for day-to-day, but a great option for work and special occasions',
       status: 'Posted',
       inquiryId: 1,
-      userId: 2
+      userId: 2,
+      contractReplyId: 1
     }),
     Reply.create({
       title:'Dark green down parka',
@@ -64,7 +67,8 @@ async function seed() {
       description: 'Great for day-to-day and low temperatures',
       status: 'Posted',
       inquiryId: 1,
-      userId: 2
+      userId: 2,
+      contractReplyId: 2
     }),
     Reply.create({
       title: 'Brown dress shoes with buckle detail',
@@ -73,7 +77,8 @@ async function seed() {
       description: 'Great work shoe that features a buckle instead of laces',
       status: 'Posted',
       inquiryId: 2,
-      userId: 1
+      userId: 1,
+      contractReplyId: 3
     }),
     Reply.create({
       title: 'Great for work and commuting',
@@ -83,7 +88,8 @@ async function seed() {
       status: 'Accepted',
       tip: 1500,
       inquiryId: 2,
-      userId: 1
+      userId: 1,
+      contractReplyId: 4
     })
   ])
 

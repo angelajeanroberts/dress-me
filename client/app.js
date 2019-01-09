@@ -1,14 +1,12 @@
 import React from 'react'
 import {Navbar} from './components'
 import Routes from './routes'
-import axios from 'axios'
-import web3 from 'web3'
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      loading: false,
+      loading: true,
       drizzleState: null,
       contractUserId: null
     }
@@ -20,17 +18,12 @@ class App extends React.Component {
 
   componentDidMount() {
     const {drizzle} = this.props
+    console.log('drizzle', drizzle)
     this.unsubscribe = drizzle.store.subscribe(() => {
       const drizzleState = drizzle.store.getState()
       if (drizzleState.drizzleStatus.initialized) {
-        const contract = drizzle.contracts.Main
-        const contractUserId = await contract.methods['auth'].cacheSend({
-          from: drizzleState.accounts[0],
-          gas: 3000000
-        })
-        this.setState({loading: false, drizzleState, contractUserId})
         console.log('drizzleState', drizzleState)
-        console.log('contractUsedId', contractUserId)
+        this.setState({loading: false, drizzleState})
       }
     })
   }
